@@ -12,11 +12,11 @@ The commands and tools was tested on MacOS.
 
 ## Prerequisites
 Install this pre-requisite in your machine.
-* [AWS Cli](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+* [IBM Cloud  Cli](https://cloud.ibm.com/docs/cli)
 * [Helm](https://github.com/helm/helm/releases)
 * [Kubectl](https://kubernetes.io/fr/docs/tasks/tools/install-kubectl/)
 
-Create an  [AWS Account](https://aws.amazon.com/getting-started/?sc_icontent=awssm-evergreen-getting_started&sc_iplace=2up&trk=ha_awssm-evergreen-getting_started&sc_ichannel=ha&sc_icampaign=evergreen-getting_started)
+Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 
 ## Steps to deploy ODM on Kubernetes from AWS EKS
 
@@ -39,8 +39,9 @@ Create an  [AWS Account](https://aws.amazon.com/getting-started/?sc_icontent=aws
     - [Get the certificate and create ODM secret certificate.](#get-the-certificate-and-create-odm-secret-certificate)
   - [4. Preparing ODM for deployment (40 min)](#4-preparing-odm-for-deployment-40-min)
       - [Create a pull secret to pull images from the IBM Entitled Registry](#create-a-pull-secret-to-pull-images-from-the-ibm-entitled-registry)
-  - [5 Deploy the ODM topology](#5-deploy-the-odm-topology)
-  - [6 Play with ODM](#6-play-with-odm)
+  - [5 Deploy the ODM topology (10 min)](#5-deploy-the-odm-topology-10-min)
+  - [6 Add Redirect Web URL (5 min)](#6-add-redirect-web-url-5-min)
+  - [7 Play with ODM](#7-play-with-odm)
 
 ## 1. Preparing your environment (40 min)
 ### Create a  Red Hat OpenShift on IBM Cloud :  (20 min)
@@ -114,6 +115,10 @@ Create the secret by this following command line.
     ```bash
     kubectl create secret generic mywebsecuritysecret --from-file=webSecurity.xml --from-file=openIdWebSecurity.xml=openIdWebSecurity.xml
     ```
+    Then 
+    ```bash
+    kubectl create secret generic my-openid-admin-secret  --from-literal=adminUser=<ClientID>  --from-literal=adminPassword=<ClientSecret>
+    ```
 
 ### Get the certificate and create ODM secret certificate.
   - Go to the AppID web interface in the instance you have previously created.
@@ -145,18 +150,61 @@ Create the secret by this following command line.
 4. Take a note of the secret and the server values so that you can set them to the **pullSecrets** and **repository** parameters when you run the operator for your containers.
 
 
-## 5 Deploy the ODM topology
+## 5 Deploy the ODM topology (10 min)
 
 Assuming you have the helm chart in your local machine retrived from the Entitled registry or from a PPA.
 
-```helm install odm-8104 --set image.repository=hyc-odm-docker.artifactory.swg-devops.com --set image.pullSecrets=hyc.registrykey --set internalDatabase.populateSampleData=true --set internalDatabase.persistence.enabled=false --set service.enableRoute=true --set image.arch=amd64 --set customization.authSecretRef=mywebsecuritysecret --set customization.securitySecretRef=mysecuritysecret --set oidc.enabled=true --set oidc.adminRef=my-openid-admin-secret --set oidc.allowedDomains=us-south.appid.cloud.ibm.com ibm-odm-prod```
+- Create a Projects: 
+  ```oc new-project odm-ibmcloud```
+- Give permission
+  ```oc adm policy add-scc-to-user privileged -z default```
+- Deploy the topology:
+```helm install odm-8104 --set image.tag=8.10.4.0 --set image.repository=cp.icr.io/cp/cp4a/odm --set image.pullSecrets=admin.registrykey --set internalDatabase.populateSampleData=true --set internalDatabase.persistence.enabled=false --set service.enableRoute=true --set image.arch=amd64 --set customization.authSecretRef=mywebsecuritysecret --set customization.securitySecretRef=mysecuritysecret --set oidc.enabled=true --set oidc.adminRef=my-openid-admin-secret --set oidc.allowedDomains=us-south.appid.cloud.ibm.com ibm-odm-prod-2.3.0.tgz```
 
-## 6 Play with ODM
+Where:
+- ibm-odm-prod : Is the location of the ODM charts
+- 
+
+## 6 Add Redirect Web URL (5 min)
+
+You should declare the redirect url of your application to the AppID service. Todo that : 
 
 - Retrieve the routes to acces to your instance:
-oc get routes
+```oc get routes```
+- Go to the AppID instance you have previously created
+- Click Manage Authentication tab
+- Click Authentication Setting tab
+- Click + for all the routes declare https://<HOSTS>/oidcclient/redirect/odm
+  
+```Exemple:
+$ oc get routes
+ NAME                            HOST/PORT                                                                                                                     PATH   SERVICES                             PORT                          TERMINATION   WILDCARD
+odm-8104-odm-dc-route           odm-8104-odm-dc-route-odm-rob.dbacluster04-4245ee08d404afbcaa8f0c6b522e175c-0001.us-east.containers.appdomain.cloud                  odm-8104-odm-decisioncenter          decisioncenter-https          passthrough   None
+odm-8104-odm-dr-route           odm-8104-odm-dr-route-odm-rob.dbacluster04-4245ee08d404afbcaa8f0c6b522e175c-0001.us-east.containers.appdomain.cloud                  odm-8104-odm-decisionrunner          decisionrunner-https          passthrough   None
+odm-8104-odm-ds-console-route   odm-8104-odm-ds-console-route-odm-rob.dbacluster04-4245ee08d404afbcaa8f0c6b522e175c-0001.us-east.containers.appdomain.cloud          odm-8104-odm-decisionserverconsole   decisionserverconsole-https   passthrough   None
+odm-8104-odm-ds-runtime-route   odm-8104-odm-ds-runtime-route-odm-rob.dbacluster04-4245ee08d404afbcaa8f0c6b522e175c-0001.us-east.containers.appdomain.cloud          odm-8104-odm-decisionserverruntime   decisionserverruntime-https   passthrough   None
+```
+
+In this example, the redirect url to add to the web interface will be :
+- https://odm-8104-odm-dc-route-odm-rob.dbacluster04-4245ee08d404afbcaa8f0c6b522e175c-0001.us-east.containers.appdomain.cloud/oidcclient/redirect/odm
+- https://odm-8104-odm-dr-route-odm-rob.dbacluster04-4245ee08d404afbcaa8f0c6b522e175c-0001.us-east.containers.appdomain.cloud/oidcclient/redirect/odm
+- https://odm-8104-odm-dr-route-odm-rob.dbacluster04-4245ee08d404afbcaa8f0c6b522e175c-0001.us-east.containers.appdomain.cloud/oidcclient/redirect/odm
+- https://odm-8104-odm-ds-runtime-route-odm-rob.dbacluster04-4245ee08d404afbcaa8f0c6b522e175c-0001.us-east.containers.appdomain.cloud/oidcclient/redirect/odm
+
+
+## 7 Play with ODM
+
+- Retrieve the routes to acces to your instance:
+```oc get routes```
 
 - Then open a browser : https://<HOST OF THE COMPONENT>
 - You should be redirected to the AppID login page
 - Enter your login/password
 - You should be redirected to the ODM component page.
+
+
+TODO:
+- Add a real BD : Postgresql ibmcloud
+- Manage the internal communication. (Run simulation for example)
+- Add an architecture diagram
+- Use PVC instead of local persistence.
