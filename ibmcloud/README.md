@@ -48,7 +48,8 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
           see the IBM Cloud documentation https://cloud.ibm.com/docs/openshift?topic=openshift-getting-started to setup a cluster. 
 
 ### Setup your local environment (10 min)
-   - [Installing the IBM Cloud and OpenShift CLI](https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-cli)
+   - see the IBM Cloud documentation  [Installing the IBM Cloud and OpenShift CLI](https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-cli) to setup your environment to use IBM Cloud Kubernetes instance.
+   
      After reading you should have installed:
       - The kubernetes-service plugin. 
          
@@ -57,7 +58,7 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
       - The oc cmd line
       - The kubectl cmd line
  
-   - [Connecting to the cluster from the CLI](https://cloud.ibm.com/docs/openshift?topic=openshift-access_cluster#access_oc_cli)
+   - Then you shoud follwo this [Connect to the cluster from the CLI](https://cloud.ibm.com/docs/openshift?topic=openshift-access_cluster#access_oc_cli) documentation to be able to connect to the custer.
    - Check the connection with the cluster. Try to list the cluster projects by this command.
         
         ```oc get projects```
@@ -65,7 +66,7 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 ## 2. Preparing App ID services (20 min)
 ### Create an App ID Sercice instance
 
-  - [Create an App ID service instance](https://cloud.ibm.com/docs/appid?topic=appid-getting-started#create) follow this steps.
+  -  Follow this steps to [Create an App ID service instance](https://cloud.ibm.com/docs/appid?topic=appid-getting-started#create) .
 
 ### Add an appliction
   - Go to the Application Tab.
@@ -74,16 +75,16 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
   - Expand the application item.
   - Click save button
   -  Take a note of the following informations:
-     -  clientId: Will be reference as <ClientID> in the next steps.
-     -  secret: Will be reference as <ClientSecret> in the next steps.
-     -  oAuthServerUrl: Will be reference as <oAuthServerUrl> in the next steps.
+     -  clientId: Will be reference as `<ClientID>` in the next steps.
+     -  secret: Will be reference as `<ClientSecret>` in the next steps.
+     -  oAuthServerUrl: Will be reference as `<oAuthServerUrl>` in the next steps.
   
 ### Add a user 
-  - [Adding users](https://cloud.ibm.com/docs/appid?topic=appid-cd-users#add-users)
+  - Follow this documentation to [Add a user](https://cloud.ibm.com/docs/appid?topic=appid-cd-users#add-users) in the AppID service Cloud Provider registry.
 
   - Take a note of the Predefined attributes "id". This can be found when you click in the user you have previous created.
   - Click "Copy Id" button or this can be found in the summary. 
-    - This will be referenced as <UserAppID> in the next steps.
+    - This will be referenced as `<UserAppID>` in the next steps.
 
 >Something like that : 
 >``` "id": "e5cbaa8e-3e07-4038-b785-35f1aa5a4841",```
@@ -94,10 +95,10 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 1. Download the [webSecurityTpl.xml](webSecurityTpl.xml) file in your local machine.
 2. Copy it to webSecurity.xml
 3. Edit the file.
-4. Replace the placeholder <USER_ID> by the concatenation of  <oAuthServerUrl>/<UserAppID>
+4. Replace the placeholder <USER_ID> by the concatenation of  `<oAuthServerUrl>/<UserAppID>`
 
-> <oAuthServerUrl> was found in the step Add an application
-> <UserAppID> was found in the step Add a user 
+> `<oAuthServerUrl>` was found in the step Add an application
+> `<UserAppID>` was found in the step Add a user 
 > Ex : https://us-south.appid.cloud.ibm.com/oauth/v4/db028209-00b5-47e9-9b36-151a107d515d/e5cbaa8e-3e07-4038-b785-35f1aa5a4841
 
 ### Create the OpenID ODM configuration file
@@ -105,9 +106,9 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 2. Copy it to openIdWebSecurity.xml
 3. Edit the file.
 4. Replace the placeholder:
-   -  <oAuthServerUrl> by the value <oAuthServerUrl>
-   -  <clientId> by the value <ClientID>
-   -  <oAuthServerUrl> by the value <ClientSecret>
+   -  `<oAuthServerUrl>` by the value `<oAuthServerUrl>`
+   -  `<clientId>` by the value `<ClientID>`
+   -  `<oAuthServerUrl>` by the value `<ClientSecret>`
 
 ### Create the ODM OpenID secrets
 Create the secret by this following command line.
@@ -163,7 +164,6 @@ Assuming you have the helm chart in your local machine retrived from the Entitle
 
 Where:
 - ibm-odm-prod : Is the location of the ODM charts
-- 
 
 ## 6 Add Redirect Web URL (5 min)
 
@@ -174,7 +174,7 @@ You should declare the redirect url of your application to the AppID service. To
 - Go to the AppID instance you have previously created
 - Click Manage Authentication tab
 - Click Authentication Setting tab
-- Click + for all the routes declare https://<HOSTS>/oidcclient/redirect/odm
+- Click + for all the routes declare https://`<HOSTS>`/oidcclient/redirect/odm
   
 ```Exemple:
 $ oc get routes
@@ -197,7 +197,7 @@ In this example, the redirect url to add to the web interface will be :
 - Retrieve the routes to acces to your instance:
 ```oc get routes```
 
-- Then open a browser : https://<HOST OF THE COMPONENT>
+- Then open a browser : https://`<HOST OF THE COMPONENT>`
 - You should be redirected to the AppID login page
 - Enter your login/password
 - You should be redirected to the ODM component page.
