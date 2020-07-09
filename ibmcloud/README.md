@@ -140,6 +140,7 @@ Create the secret by this following command line.
 2. In the **Container software library** tile, verify your entitlement on the **View library** page, and then go to **Get entitlement key** to retrieve the key.
 
 3. Create a pull secret by running a `kubectl create secret` command.
+
    ```oc create secret docker-registry admin.registrykey --docker-server=cp.icr.io --docker-username=cp --docker-password="<API_KEY_GENERATED>" --docker-email=<USER_EMAIL>```
 
    > **Note**: The `cp.icr.io` value for the **docker-server** parameter is the only registry domain name that contains the images.
@@ -163,7 +164,12 @@ Assuming you have the helm chart in your local machine retrived from the Entitle
 
 - Deploy the topology:
 
-  ```helm install odm-8104 --set image.tag=8.10.4.0 --set image.repository=cp.icr.io/cp/cp4a/odm --set image.pullSecrets=admin.registrykey --set internalDatabase.populateSampleData=true --set internalDatabase.persistence.enabled=false --set service.enableRoute=true --set image.arch=amd64 --set customization.authSecretRef=mywebsecuritysecret --set customization.securitySecretRef=mysecuritysecret --set oidc.enabled=true --set oidc.adminRef=my-openid-admin-secret --set oidc.allowedDomains=us-south.appid.cloud.ibm.com ibm-odm-prod-2.3.0.tgz```
+  ```helm install odm-8104 --set image.tag=8.10.4.0 --set image.repository=cp.icr.io/cp/cp4a/odm \
+                           --set image.pullSecrets=admin.registrykey --set internalDatabase.populateSampleData=true \
+                           --set internalDatabase.persistence.enabled=false --set service.enableRoute=true \
+                           --set image.arch=amd64 --set customization.authSecretRef=mywebsecuritysecret \
+                           --set customization.securitySecretRef=mysecuritysecret --set oidc.enabled=true \
+                           --set oidc.adminRef=my-openid-admin-secret --set oidc.allowedDomains=us-south.appid.cloud.ibm.com ibm-odm-prod-2.3.0.tgz```
 
 Where:
 - ibm-odm-prod : Is the location of the ODM charts
@@ -173,7 +179,9 @@ Where:
 You should declare the redirect url of your application to the AppID service. Todo that : 
 
 - Retrieve the routes to acces to your instance:
+
 ```oc get routes```
+
 - Go to the AppID instance you have previously created
 - Click Manage Authentication tab
 - Click Authentication Setting tab
