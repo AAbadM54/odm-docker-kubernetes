@@ -18,37 +18,33 @@ Install this pre-requisite in your machine.
 
 Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 
-## Steps to deploy ODM on Kubernetes from AWS EKS
+## Steps to deploy ODM on Red Hat OpenShift on IBM Cloud 
 
-- [Deploying IBM Operational Decision Manager Standard on Red Hat OpenShift on IBM Cloud with App ID Authentication](#deploying-ibm-operational-decision-manager-standard-on-red-hat-openshift-on-ibm-cloud-with-app-id-authentication)
-  - [Included Components](#included-components)
-  - [Tutorial environment](#tutorial-environment)
-  - [Prerequisites](#prerequisites)
-  - [Steps to deploy ODM on Kubernetes from AWS EKS](#steps-to-deploy-odm-on-kubernetes-from-aws-eks)
-  - [1. Preparing your environment (30 min)](#1-preparing-yourenvironment-30-min)
-    - [Create a  Red Hat OpenShift on IBM Cloud :  (20 min)](#create-a-red-hat-openshift-on-ibm-cloud--20-min)
-    - [Setup your local environment (10 min)](#setup-your-local-environment-10-min)
-  - [2. Preparing App ID services (20 min)](#2-preparing-app-id-services-20-min)
-    - [Create an App ID Sercice instance](#create-an-app-id-sercice-instance)
-    - [Add an appliction](#add-an-appliction)
-    - [Add a user](#add-a-user)
-  - [3. Preparing Operational Decision Manager for AppID (20 min)](#3-preparing-operational-decision-manager-for-appid-20-min)
-    - [Create the user mapping file.](#create-the-user-mapping-file)
-    - [Create the OpenID ODM configuration file](#create-the-openid-odm-configuration-file)
-    - [Create the ODM OpenID secrets](#create-the-odm-openid-secrets)
-    - [Get the certificate and create ODM secret certificate.](#get-the-certificate-and-create-odm-secret-certificate)
-  - [4. Preparing ODM for deployment (10 min)](#4-preparing-odm-for-deployment-10-min)
-      - [Create a pull secret to pull images from the IBM Entitled Registry](#create-a-pull-secret-to-pull-images-from-the-ibm-entitled-registry)
-  - [5 Deploy the ODM topology (10 min)](#5-deploy-the-odm-topology-10-min)
-  - [6 Add Redirect Web URL (5 min)](#6-add-redirect-web-url-5-min)
-  - [7 Play with ODM (10 min)](#7-play-with-odm-10-min)
+  * [1. Preparing your environment (30 min)](#1-preparing-yourenvironment-30-min)
+      * [Create a  Red Hat OpenShift on IBM Cloud :  (20 min)](#create-a--red-hat-openshift-on-ibm-cloud--20-min)
+      * [Setup your local environment (10 min)](#setup-your-local-environment-10-min)
+  * [2. Preparing App ID services (20 min)](#2-preparing-app-id-services-20-min)
+      * [Create an App ID Sercice instance](#create-an-app-id-sercice-instance)
+      * [Add an appliction](#add-an-appliction)
+      * [Add a user](#add-a-user)
+  * [3. Preparing Operational Decision Manager for AppID (20 min)](#3-preparing-operational-decision-manager-for-appid-20-min)
+      * [Create the user mapping file.](#create-the-user-mapping-file)
+      * [Create the OpenID ODM configuration file](#create-the-openid-odm-configuration-file)
+      * [Create the ODM OpenID secrets](#create-the-odm-openid-secrets)
+      * [Get the certificate and create ODM secret certificate.](#get-the-certificate-and-create-odm-secret-certificate)
+  * [4. Preparing ODM for deployment (10 min)](#4-preparing-odm-for-deployment-10-min)
+        * [Create a pull secret to pull images from the IBM Entitled Registry](#create-a-pull-secret-to-pull-images-from-the-ibm-entitled-registry)
+  * [5 Deploy the ODM topology (10 min)](#5-deploy-the-odm-topology-10-min)
+  * [6 Add Redirect Web URL (5 min)](#6-add-redirect-web-url-5-min)
+  * [7 Play with ODM (10 min)](#7-play-with-odm-10-min)
 
 ## 1. Preparing your environment (30 min)
 ### Create a  Red Hat OpenShift on IBM Cloud :  (20 min)
           see the IBM Cloud documentation https://cloud.ibm.com/docs/openshift?topic=openshift-getting-started to setup a cluster. 
 
 ### Setup your local environment (10 min)
-   - [Installing the IBM Cloud and OpenShift CLI](https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-cli)
+   - see the IBM Cloud documentation  [Installing the IBM Cloud and OpenShift CLI](https://cloud.ibm.com/docs/openshift?topic=openshift-openshift-cli) to setup your environment to use IBM Cloud Kubernetes instance.
+   
      After reading you should have installed:
       - The kubernetes-service plugin. 
          
@@ -57,7 +53,7 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
       - The oc cmd line
       - The kubectl cmd line
  
-   - [Connecting to the cluster from the CLI](https://cloud.ibm.com/docs/openshift?topic=openshift-access_cluster#access_oc_cli)
+   - Then you shoud follwo this [Connect to the cluster from the CLI](https://cloud.ibm.com/docs/openshift?topic=openshift-access_cluster#access_oc_cli) documentation to be able to connect to the custer.
    - Check the connection with the cluster. Try to list the cluster projects by this command.
         
         ```oc get projects```
@@ -65,7 +61,7 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 ## 2. Preparing App ID services (20 min)
 ### Create an App ID Sercice instance
 
-  - [Create an App ID service instance](https://cloud.ibm.com/docs/appid?topic=appid-getting-started#create) follow this steps.
+  -  Follow this steps to [Create an App ID service instance](https://cloud.ibm.com/docs/appid?topic=appid-getting-started#create) .
 
 ### Add an appliction
   - Go to the Application Tab.
@@ -74,16 +70,16 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
   - Expand the application item.
   - Click save button
   -  Take a note of the following informations:
-     -  clientId: Will be reference as <ClientID> in the next steps.
-     -  secret: Will be reference as <ClientSecret> in the next steps.
-     -  oAuthServerUrl: Will be reference as <oAuthServerUrl> in the next steps.
+     -  clientId: Will be reference as `<ClientID>` in the next steps.
+     -  secret: Will be reference as `<ClientSecret>` in the next steps.
+     -  oAuthServerUrl: Will be reference as `<oAuthServerUrl>` in the next steps.
   
 ### Add a user 
-  - [Adding users](https://cloud.ibm.com/docs/appid?topic=appid-cd-users#add-users)
+  - Follow this documentation to [Add a user](https://cloud.ibm.com/docs/appid?topic=appid-cd-users#add-users) in the AppID service Cloud Provider registry.
 
   - Take a note of the Predefined attributes "id". This can be found when you click in the user you have previous created.
   - Click "Copy Id" button or this can be found in the summary. 
-    - This will be referenced as <UserAppID> in the next steps.
+    - This will be referenced as `<UserAppID>` in the next steps.
 
 >Something like that : 
 >``` "id": "e5cbaa8e-3e07-4038-b785-35f1aa5a4841",```
@@ -94,10 +90,10 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 1. Download the [webSecurityTpl.xml](webSecurityTpl.xml) file in your local machine.
 2. Copy it to webSecurity.xml
 3. Edit the file.
-4. Replace the placeholder <USER_ID> by the concatenation of  <oAuthServerUrl>/<UserAppID>
+4. Replace the placeholder <USER_ID> by the concatenation of  `<oAuthServerUrl>/<UserAppID>`
 
-> <oAuthServerUrl> was found in the step Add an application
-> <UserAppID> was found in the step Add a user 
+> `<oAuthServerUrl>` was found in the step Add an application
+> `<UserAppID>` was found in the step Add a user 
 > Ex : https://us-south.appid.cloud.ibm.com/oauth/v4/db028209-00b5-47e9-9b36-151a107d515d/e5cbaa8e-3e07-4038-b785-35f1aa5a4841
 
 ### Create the OpenID ODM configuration file
@@ -105,20 +101,18 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 2. Copy it to openIdWebSecurity.xml
 3. Edit the file.
 4. Replace the placeholder:
-   -  <oAuthServerUrl> by the value <oAuthServerUrl>
-   -  <clientId> by the value <ClientID>
-   -  <oAuthServerUrl> by the value <ClientSecret>
+   -  `<oAuthServerUrl>` by the value `<oAuthServerUrl>`
+   -  `<clientId>` by the value `<ClientID>`
+   -  `<oAuthServerUrl>` by the value `<ClientSecret>`
 
 ### Create the ODM OpenID secrets
 Create the secret by this following command line.
 
-    ```bash
-    kubectl create secret generic mywebsecuritysecret --from-file=webSecurity.xml --from-file=openIdWebSecurity.xml=openIdWebSecurity.xml
-    ```
-    Then 
-    ```bash
-    kubectl create secret generic my-openid-admin-secret  --from-literal=adminUser=<ClientID>  --from-literal=adminPassword=<ClientSecret>
-    ```
+ ```kubectl create secret generic mywebsecuritysecret --from-file=webSecurity.xml --from-file=openIdWebSecurity.xml=openIdWebSecurity.xml```
+    
+ Then 
+ 
+ ```kubectl create secret generic my-openid-admin-secret  --from-literal=adminUser=<ClientID>  --from-literal=adminPassword=<ClientSecret>```
 
 ### Get the certificate and create ODM secret certificate.
   - Go to the AppID web interface in the instance you have previously created.
@@ -141,6 +135,7 @@ Create the secret by this following command line.
 2. In the **Container software library** tile, verify your entitlement on the **View library** page, and then go to **Get entitlement key** to retrieve the key.
 
 3. Create a pull secret by running a `kubectl create secret` command.
+
    ```oc create secret docker-registry admin.registrykey --docker-server=cp.icr.io --docker-username=cp --docker-password="<API_KEY_GENERATED>" --docker-email=<USER_EMAIL>```
 
    > **Note**: The `cp.icr.io` value for the **docker-server** parameter is the only registry domain name that contains the images.
@@ -155,26 +150,39 @@ Create the secret by this following command line.
 Assuming you have the helm chart in your local machine retrived from the Entitled registry or from a PPA.
 
 - Create a Projects: 
+
   ```oc new-project odm-ibmcloud```
+
 - Give permission
+
   ```oc adm policy add-scc-to-user privileged -z default```
+
 - Deploy the topology:
-```helm install odm-8104 --set image.tag=8.10.4.0 --set image.repository=cp.icr.io/cp/cp4a/odm --set image.pullSecrets=admin.registrykey --set internalDatabase.populateSampleData=true --set internalDatabase.persistence.enabled=false --set service.enableRoute=true --set image.arch=amd64 --set customization.authSecretRef=mywebsecuritysecret --set customization.securitySecretRef=mysecuritysecret --set oidc.enabled=true --set oidc.adminRef=my-openid-admin-secret --set oidc.allowedDomains=us-south.appid.cloud.ibm.com ibm-odm-prod-2.3.0.tgz```
+
+  ```
+   helm install odm-8104 --set image.tag=8.10.4.0 --set image.repository=cp.icr.io/cp/cp4a/odm \
+                           --set image.pullSecrets=admin.registrykey --set internalDatabase.populateSampleData=true \
+                           --set internalDatabase.persistence.enabled=false --set service.enableRoute=true \
+                           --set image.arch=amd64 --set customization.authSecretRef=mywebsecuritysecret \
+                           --set customization.securitySecretRef=mysecuritysecret --set oidc.enabled=true \
+                           --set oidc.adminRef=my-openid-admin-secret \
+                           --set oidc.allowedDomains=us-south.appid.cloud.ibm.com ibm-odm-prod-2.3.0.tgz```
 
 Where:
 - ibm-odm-prod : Is the location of the ODM charts
-- 
 
 ## 6 Add Redirect Web URL (5 min)
 
 You should declare the redirect url of your application to the AppID service. Todo that : 
 
 - Retrieve the routes to acces to your instance:
+
 ```oc get routes```
+
 - Go to the AppID instance you have previously created
 - Click Manage Authentication tab
 - Click Authentication Setting tab
-- Click + for all the routes declare https://<HOSTS>/oidcclient/redirect/odm
+- Click + for all the routes declare https://`<HOSTS>`/oidcclient/redirect/odm
   
 ```Exemple:
 $ oc get routes
@@ -197,7 +205,7 @@ In this example, the redirect url to add to the web interface will be :
 - Retrieve the routes to acces to your instance:
 ```oc get routes```
 
-- Then open a browser : https://<HOST OF THE COMPONENT>
+- Then open a browser : https://`<HOST OF THE COMPONENT>`
 - You should be redirected to the AppID login page
 - Enter your login/password
 - You should be redirected to the ODM component page.
