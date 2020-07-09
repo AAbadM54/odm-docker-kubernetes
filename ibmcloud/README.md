@@ -25,7 +25,7 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
   - [Tutorial environment](#tutorial-environment)
   - [Prerequisites](#prerequisites)
   - [Steps to deploy ODM on Kubernetes from AWS EKS](#steps-to-deploy-odm-on-kubernetes-from-aws-eks)
-  - [1. Preparing your environment (40 min)](#1-preparing-yourenvironment-40-min)
+  - [1. Preparing your environment (30 min)](#1-preparing-yourenvironment-30-min)
     - [Create a  Red Hat OpenShift on IBM Cloud :  (20 min)](#create-a-red-hat-openshift-on-ibm-cloud--20-min)
     - [Setup your local environment (10 min)](#setup-your-local-environment-10-min)
   - [2. Preparing App ID services (20 min)](#2-preparing-app-id-services-20-min)
@@ -37,13 +37,13 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
     - [Create the OpenID ODM configuration file](#create-the-openid-odm-configuration-file)
     - [Create the ODM OpenID secrets](#create-the-odm-openid-secrets)
     - [Get the certificate and create ODM secret certificate.](#get-the-certificate-and-create-odm-secret-certificate)
-  - [4. Preparing ODM for deployment (40 min)](#4-preparing-odm-for-deployment-40-min)
+  - [4. Preparing ODM for deployment (10 min)](#4-preparing-odm-for-deployment-10-min)
       - [Create a pull secret to pull images from the IBM Entitled Registry](#create-a-pull-secret-to-pull-images-from-the-ibm-entitled-registry)
   - [5 Deploy the ODM topology (10 min)](#5-deploy-the-odm-topology-10-min)
   - [6 Add Redirect Web URL (5 min)](#6-add-redirect-web-url-5-min)
-  - [7 Play with ODM](#7-play-with-odm)
+  - [7 Play with ODM (10 min)](#7-play-with-odm-10-min)
 
-## 1. Preparing your environment (40 min)
+## 1. Preparing your environment (30 min)
 ### Create a  Red Hat OpenShift on IBM Cloud :  (20 min)
           see the IBM Cloud documentation https://cloud.ibm.com/docs/openshift?topic=openshift-getting-started to setup a cluster. 
 
@@ -134,7 +134,7 @@ Create the secret by this following command line.
 
 > You can manage your own certificate. Is that case you should add the mytruststore.jks in your certificate and create this secret.
 
-## 4. Preparing ODM for deployment (40 min)
+## 4. Preparing ODM for deployment (10 min)
 #### Create a pull secret to pull images from the IBM Entitled Registry
 1. Log in to [MyIBM Container Software Library](https://myibm.ibm.com/products-services/containerlibrary) with the IBMid and password that are associated with the entitled software.
 
@@ -192,7 +192,7 @@ In this example, the redirect url to add to the web interface will be :
 - https://odm-8104-odm-ds-runtime-route-odm-rob.dbacluster04-4245ee08d404afbcaa8f0c6b522e175c-0001.us-east.containers.appdomain.cloud/oidcclient/redirect/odm
 
 
-## 7 Play with ODM
+## 7 Play with ODM (10 min)
 
 - Retrieve the routes to acces to your instance:
 ```oc get routes```
