@@ -164,12 +164,14 @@ Assuming you have the helm chart in your local machine retrived from the Entitle
 
 - Deploy the topology:
 
-  ```helm install odm-8104 --set image.tag=8.10.4.0 --set image.repository=cp.icr.io/cp/cp4a/odm \
+  ```
+   helm install odm-8104 --set image.tag=8.10.4.0 --set image.repository=cp.icr.io/cp/cp4a/odm \
                            --set image.pullSecrets=admin.registrykey --set internalDatabase.populateSampleData=true \
                            --set internalDatabase.persistence.enabled=false --set service.enableRoute=true \
                            --set image.arch=amd64 --set customization.authSecretRef=mywebsecuritysecret \
                            --set customization.securitySecretRef=mysecuritysecret --set oidc.enabled=true \
-                           --set oidc.adminRef=my-openid-admin-secret --set oidc.allowedDomains=us-south.appid.cloud.ibm.com ibm-odm-prod-2.3.0.tgz```
+                           --set oidc.adminRef=my-openid-admin-secret \
+                           --set oidc.allowedDomains=us-south.appid.cloud.ibm.com ibm-odm-prod-2.3.0.tgz```
 
 Where:
 - ibm-odm-prod : Is the location of the ODM charts
