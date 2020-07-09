@@ -113,15 +113,11 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 ### Create the ODM OpenID secrets
 Create the secret by this following command line.
 
-    ```bash
-    kubectl create secret generic mywebsecuritysecret --from-file=webSecurity.xml --from-file=openIdWebSecurity.xml=openIdWebSecurity.xml
-    ```
+ ```kubectl create secret generic mywebsecuritysecret --from-file=webSecurity.xml --from-file=openIdWebSecurity.xml=openIdWebSecurity.xml```
     
  Then 
  
-    ```bash
-    kubectl create secret generic my-openid-admin-secret  --from-literal=adminUser=<ClientID>  --from-literal=adminPassword=<ClientSecret>
-    ```
+ ```kubectl create secret generic my-openid-admin-secret  --from-literal=adminUser=<ClientID>  --from-literal=adminPassword=<ClientSecret>```
 
 ### Get the certificate and create ODM secret certificate.
   - Go to the AppID web interface in the instance you have previously created.
