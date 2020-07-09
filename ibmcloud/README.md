@@ -116,7 +116,9 @@ Create the secret by this following command line.
     ```bash
     kubectl create secret generic mywebsecuritysecret --from-file=webSecurity.xml --from-file=openIdWebSecurity.xml=openIdWebSecurity.xml
     ```
-    Then 
+    
+ Then 
+ 
     ```bash
     kubectl create secret generic my-openid-admin-secret  --from-literal=adminUser=<ClientID>  --from-literal=adminPassword=<ClientSecret>
     ```
