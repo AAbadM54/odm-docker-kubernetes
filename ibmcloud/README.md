@@ -20,11 +20,6 @@ Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 
 ## Steps to deploy ODM on Red Hat OpenShift on IBM Cloud 
 
-- [Deploying IBM Operational Decision Manager Standard on Red Hat OpenShift on IBM Cloud with App ID Authentication](#deploying-ibm-operational-decision-manager-standard-on-red-hat-openshift-on-ibm-cloud-with-app-id-authentication)
-  - [Included Components](#included-components)
-  - [Tutorial environment](#tutorial-environment)
-  - [Prerequisites](#prerequisites)
-  - [Steps to deploy ODM on Kubernetes from AWS EKS](#steps-to-deploy-odm-on-kubernetes-from-aws-eks)
   - [1. Preparing your environment (40 min)](#1-preparing-yourenvironment-40-min)
     - [Create a  Red Hat OpenShift on IBM Cloud :  (20 min)](#create-a-red-hat-openshift-on-ibm-cloud--20-min)
     - [Setup your local environment (10 min)](#setup-your-local-environment-10-min)
