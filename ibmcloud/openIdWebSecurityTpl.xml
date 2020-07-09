@@ -1,0 +1,34 @@
+
+<server>
+
+<variable name="oAuthServerUrl" value="<oAuthServerUrl>"/>
+
+
+
+  <!-- Open ID Connect -->
+  <!-- Client with inbound propagation set to supported -->
+  <openidConnectClient authFilterRef="browserAuthFilter" id="odm" 
+		    		           signatureAlgorithm="RS256" 
+                       clientId="<clientId>"
+                       clientSecret="<secret>"
+                       authorizationEndpointUrl="${oAuthServerUrl}/authorization"
+                       tokenEndpointUrl="${oAuthServerUrl}/token"
+                       jwkEndpointUrl="${oAuthServerUrl}/publickeys"
+                       issuerIdentifier="${oAuthServerUrl}"
+                       tokenEndpointAuthMethod="basic"/>
+
+  <!-- Client with inbound propagation set to required -->
+  <openidConnectClient authFilterRef="apiAuthFilter" id="odmapi" 
+                       clientId="<clientId>"
+                       clientSecret="<secret>"
+                       authorizationEndpointUrl="${oAuthServerUrl}/authorization"
+                       tokenEndpointUrl="${oAuthServerUrl}/token"
+                       jwkEndpointUrl="${oAuthServerUrl}/publickeys"
+                       issuerIdentifier="${oAuthServerUrl}"
+                       tokenEndpointAuthMethod="basic"
+                       signatureAlgorithm="RS256"/>
+</server>
+    
+   
+    
+   
