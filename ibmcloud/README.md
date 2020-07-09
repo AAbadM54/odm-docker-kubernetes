@@ -18,7 +18,7 @@ Install this pre-requisite in your machine.
 
 Create an  [IBM Cloud Account](https://cloud.ibm.com/)
 
-## Steps to deploy ODM on Kubernetes from AWS EKS
+## Steps to deploy ODM on Red Hat OpenShift on IBM Cloud 
 
 - [Deploying IBM Operational Decision Manager Standard on Red Hat OpenShift on IBM Cloud with App ID Authentication](#deploying-ibm-operational-decision-manager-standard-on-red-hat-openshift-on-ibm-cloud-with-app-id-authentication)
   - [Included Components](#included-components)
